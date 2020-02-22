@@ -1,12 +1,17 @@
 package com.learningspring.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Usuario implements Serializable {
@@ -28,18 +33,24 @@ public class Usuario implements Serializable {
 	
 	@Column(name="senha", nullable = false)
 	private String senha;
+	
+	@JsonIgnore // Evita um loop infinito onde usuários e pedidos são buscados 
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nome, String email, String telefone, String senha) {
+	public Usuario(Long id, String nome, String email, String telefone, String senha, List<Pedido> pedidos) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
 		this.senha = senha;
+		this.pedidos = pedidos;
 	}
+
 
 	public Long getId() {
 		return id;
@@ -79,6 +90,10 @@ public class Usuario implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
 	@Override
