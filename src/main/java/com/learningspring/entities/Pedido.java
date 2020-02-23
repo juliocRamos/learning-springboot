@@ -2,6 +2,8 @@ package com.learningspring.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.learningspring.constants.PedidoStatusConstants;
@@ -32,6 +35,9 @@ public class Pedido implements Serializable {
 	private Usuario cliente;
 
 	private Integer pedidoStatus;
+
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itensPedido = new HashSet<>();
 
 	public Pedido() {
 		super();
@@ -75,8 +81,12 @@ public class Pedido implements Serializable {
 
 	public void setPedidoStatus(PedidoStatusConstants pedidoStatus) {
 		if (pedidoStatus != null) {
-			this.pedidoStatus = pedidoStatus.getCodigo();			
+			this.pedidoStatus = pedidoStatus.getCodigo();
 		}
+	}
+
+	public Set<ItemPedido> getItensPedido() {
+		return itensPedido;
 	}
 
 	@Override
