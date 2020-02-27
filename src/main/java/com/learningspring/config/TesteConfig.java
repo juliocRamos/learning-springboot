@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.learningspring.constants.PedidoStatusConstants;
 import com.learningspring.entities.Categoria;
 import com.learningspring.entities.ItemPedido;
+import com.learningspring.entities.Pagamento;
 import com.learningspring.entities.Pedido;
 import com.learningspring.entities.Produto;
 import com.learningspring.entities.Usuario;
@@ -89,5 +90,10 @@ public class TesteConfig implements CommandLineRunner {
 		ItemPedido oi4 = new ItemPedido(p3, pd5, 2, pd5.getPreco());
 
 		itemPedidoRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		Pagamento pgto1 = new Pagamento(null, Instant.parse("2019-06-20T21:00:07Z"), p1);
+		p1.setPagamento(pgto1);
+		
+		pedidoRepository.save(p1);
 	}
 }

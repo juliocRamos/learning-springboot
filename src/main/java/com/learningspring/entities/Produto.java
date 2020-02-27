@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto {
@@ -31,10 +34,11 @@ public class Produto {
 	@Column(name = "urlImage", nullable = true)
 	private String urlImage;
 
+	@OneToMany(mappedBy = "id.produto")
+	private Set<ItemPedido> itensPedido = new HashSet<>();
+
 	@ManyToMany
-	@JoinTable(name = "produto_categoria", 
-	joinColumns = @JoinColumn(name = "produtoid"),
-	inverseJoinColumns = @JoinColumn(name = "categoriaid"))
+	@JoinTable(name = "produto_categoria", joinColumns = @JoinColumn(name = "produtoid"), inverseJoinColumns = @JoinColumn(name = "categoriaid"))
 	private Set<Categoria> categorias = new HashSet<>();
 
 	public Produto() {
@@ -93,6 +97,16 @@ public class Produto {
 		return categorias;
 	}
 
+	@JsonIgnore
+	public Set<Pedido> getPedidos(){
+		Set<Pedido> pedidosComProdutoVinculado = new HashSet<>();
+		
+		for (ItemPedido item : itensPedido) {
+			pedidosComProdutoVinculado.add(item.getPedido());
+		}
+		return pedidosComProdutoVinculado;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

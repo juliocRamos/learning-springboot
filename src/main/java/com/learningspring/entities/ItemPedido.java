@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.learningspring.entities.auxiliares.ItemPedidoPK;
 
 @Entity
-public class ItemPedido implements Serializable{
+public class ItemPedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,20 +33,20 @@ public class ItemPedido implements Serializable{
 		this.id.setPedido(pedido);
 		this.id.setProduto(produto);
 	}
-	
+
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
-	
+
 	@JsonIgnore
 	public void setPedido(Pedido pedido) {
 		this.id.setPedido(pedido);
 	}
-	
+
 	public Produto getProduto() {
 		return id.getProduto();
 	}
-	
+
 	public void setProduto(Produto produto) {
 		this.id.setProduto(produto);
 	}
