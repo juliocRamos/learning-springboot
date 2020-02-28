@@ -41,7 +41,7 @@ public class Pedido implements Serializable {
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itensPedido = new HashSet<>();
 
-	//Mapeio a relação 1 para 1 com o mesmo id
+	// Mapeio a relação 1 para 1 com o mesmo id
 	@OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private Pagamento pagamento;
 
@@ -101,6 +101,14 @@ public class Pedido implements Serializable {
 
 	public Set<ItemPedido> getItensPedido() {
 		return itensPedido;
+	}
+
+	public Double getTotalPedido() {
+		double totalPedido = getItensPedido().stream() //
+				.mapToDouble(e -> e.getSubTotal())  //
+				.reduce(1, (val1, val2) -> val1 + val2);
+		return totalPedido;
+
 	}
 
 	@Override
