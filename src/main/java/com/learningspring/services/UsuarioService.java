@@ -23,4 +23,26 @@ public class UsuarioService {
 		Optional<Usuario> usuarioOptional = repository.findById(id);
 		return usuarioOptional.get();
 	}
+	
+	public Usuario persistUsuario(Usuario entity) {
+		return repository.save(entity);
+	}
+	
+	public void deleteUsuario(Long id) {
+		repository.deleteById(id);
+	}
+	
+	public Usuario updateUsuario(Long id, Usuario obj) {
+		Usuario entity = repository.getOne(id);
+		updateData(entity, obj);
+		return repository.save(entity);
+	}
+
+	private void updateData(Usuario entity, Usuario obj) {
+		if (entity != null && obj != null) {
+			entity.setNome(obj.getNome());
+			entity.setEmail(obj.getEmail());
+			entity.setTelefone(obj.getTelefone());
+		}
+	}
 }
